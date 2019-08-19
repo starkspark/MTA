@@ -1,0 +1,19 @@
+{
+  "name": "mta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sever.js",
+  "start": "nodemon server/server.js",
+  "start-dev": "nodemon server/server",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "enzyme": "^3.10.0",
+    "jest": "^24.9.0",
+    "pg": "^7.12.1",
+    "react": "^16.9.0",
+    "redux": "^4.0.4"
+  }
+}
