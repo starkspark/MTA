@@ -10,7 +10,7 @@ class App extends React.Component{
     console.log("Clicked!");
     fetch("http://localhost:3000/test")
     .then(data => data.json())
-    .then(JSONdata => console.log(JSONdata))
+    .then(JSONdata => console.log(JSONdata, '***'))
     .catch(error => console.log(error))
   }
 
