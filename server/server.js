@@ -3,30 +3,41 @@ const app = express();
 const cors = require('cors');
 const request = require('request');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
+const convert = require('xml-js');
 
+//this is used to handle CORS issue
 app.use(cors());
-
-// 'http://datamine.mta.info/mta_esi.php?key=dbc2942f56ccc6bb984903803264f490&feed_id=2'
-
+//this is the test route for the proof of concept
 app.get('/test', (req, res) => {
-  const requestSettings = {
-    method: 'GET',
-    url: 'http://datamine.mta.info/mta_esi.php?key=dbc2942f56ccc6bb984903803264f490&feed_id=2',
-    encoding: null
-  };
-  request(requestSettings, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-      // console.log(GtfsRealtimeBindings, '***');
-      var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
-      res.send(feed.entity);
-      // feed.entity.forEach(function (entity) {
-      //   if (entity.tripUpdate) {
-      //     console.log(entity.tripUpdate);
-      //   }
-      // });
-      // console.log(feed.entity[0]);
-    }
+  //used request module to fetch the XML with all of the updated delays for MTA
+  request('http://web.mta.info/status/ServiceStatusSubway.xml', (error, response, body) => {
+    //if error, handle and report error
+    if (error) console.log(`Error: ${error}`);
+    //this variable stores the converted XML data as a JSON object
+    let JSON = convert.xml2js(body, { compact: false });
+    //reassigned JSON variable to access it's nested property
+    //this brings us to the PTSITUATIONELEMENT property
+    JSON = JSON.elements[0].elements[0].elements[1].elements[2].elements;
+    //this variable stores the object that will have all lines affected by delays
+    const lineTracker = {};
+    //iterated over JSON array to access each PTSITUATIONELEMENT
+    JSON.forEach((situation) => {
+      //this variable stores the reference to the Affected Vehicle Journey property
+      //it is an array
+      let journey = situation.elements[10].elements[0].elements;
+      //iterated over the array stored at the Affected Vehicle Journey property
+      journey.forEach(line => {
+        //this variable stores the reference to the name of the line affected by delays
+        let train = line.elements[0].elements[0].text;
+        //this variable stores the actual letter of the train
+        train = train[train.length - 1];
+        //this conditional asks if the affected train exists in the lineTracker object
+        //if it is not, we add it to it
+        if (!lineTracker[train]) lineTracker[train] = true;
+      })
+    });
+    res.send(lineTracker);
+  })
   });
-});
 
 app.listen(3000, () => console.log('App is listening on port 3000'));
