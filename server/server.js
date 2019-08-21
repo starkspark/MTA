@@ -5,13 +5,19 @@ const request = require('request');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 const convert = require('xml-js');
 const pool = require('../database/db');
+const bodyParser = require('body-parser')
+
 
 pool.query('INSERT INTO a (phone) VALUES (3475556932)', (err, res) => {
   if (err) console.log(err);
-  console.log('inside server query');
+  // console.log('inside server query');
 })
 //this is used to handle CORS issue
 app.use(cors());
+//using body parser
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(bodyParser.json())
 //this is the test route for the proof of concept
 app.get('/test', (req, res) => {
   //used request module to fetch the XML with all of the updated delays for MTA
@@ -44,5 +50,10 @@ app.get('/test', (req, res) => {
     res.send(lineTracker);
   })
   });
+app.post('/test', (req,res)=>{
+  console.log('reqdotbody',req.body)
+  console.log('we hit test post')
+  res.send('dog food')
+})
 
 app.listen(3000, () => console.log('App is listening on port 3000'));

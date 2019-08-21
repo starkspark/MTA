@@ -4,12 +4,12 @@ const pool = new pg.Pool({connectionString: uri});
 
 pool.connect((err, db) => {
   if (err) console.log(err)
-  console.log("I'm here!")
+  // console.log("I'm here!")
   
   db.query('SELECT * FROM a', (err, res) => {
     if (err) console.log(err);
-    console.log("in the query")
-    console.log(res)
+    // console.log("in the query")
+    // console.log(res)
   })
   // db.end();
 })
