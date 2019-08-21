@@ -4,7 +4,12 @@ const cors = require('cors');
 const request = require('request');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 const convert = require('xml-js');
+const pool = require('../database/db');
 
+pool.query('INSERT INTO a (phone) VALUES (3475556932)', (err, res) => {
+  if (err) console.log(err);
+  console.log('inside server query');
+})
 //this is used to handle CORS issue
 app.use(cors());
 //this is the test route for the proof of concept
