@@ -11,8 +11,8 @@ class Form extends React.Component{
     this.addSubscriber = this.addSubscriber.bind(this);
     this.getInput = this.getInput.bind(this);
     this.addLine = this.addLine.bind(this);
-
 }
+
 getInput(){
   const gotPhone = document.querySelector('#phone-input').value
   // console.log({ gotPhone })
@@ -39,33 +39,24 @@ addSubscriber(){
   })
   .catch(error => console.log(error))
 }
-addLine(event){
 
-  console.log("checking the check",event.target.checked)
+addLine(event){
   const selectedTrain = event.target.id
   if(event.target.checked){
     const copyLines = JSON.parse(JSON.stringify(this.state.selectedLines));
-
     if(!copyLines[selectedTrain]){
-      copyLines[selectedTrain] = true
-      // console.log(this.state.selectedLines)
-    this.setState({
+      copyLines[selectedTrain] = true;
+      this.setState({
       selectedLines: copyLines
-    })
+      })
+    }
+  } else {
+      const copyLines = JSON.parse(JSON.stringify(this.state.selectedLines));
+      delete copyLines[selectedTrain]
+      this.setState({
+        selectedLines: copyLines
+      })
   }
-  } else{
-    const copyLines = JSON.parse(JSON.stringify(this.state.selectedLines));
-
-    delete copyLines[selectedTrain]
-    this.setState({
-      selectedLines: copyLines
-    })
-  }
-// console.log('Selected lines',this.state.selectedLines)
-
-}
-componentDidUpdate(){
-  console.log(this.state.selectedLines)
 }
 
   render(){

@@ -29,6 +29,7 @@
     "redux": "^4.0.4",
     "request": "^2.88.0",
     "style-loader": "^1.0.0",
+    "twilio": "^3.33.4",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0",
