@@ -48,9 +48,9 @@ module.exports = {
     const lines = res.locals.lines;
     //iterate over array of lines
     lines.forEach(line => {
-      const sqlQuery = `INSERT INTO n4 (phone) VALUES (${phonenumber})`;
+      const sqlQuery = `INSERT INTO line_${line} (phone) VALUES (${phonenumber})`;
       //insert the number to the appropriate table(s)
-      pool.query(sqlQuery, (error, result) => {
+      pool.query(sqlQuery2, (error, result) => {
         if (error) console.log(`Error: ${error}`);
         else console.log(result, '***');
       })
