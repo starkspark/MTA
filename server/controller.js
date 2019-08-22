@@ -1,6 +1,7 @@
 const request = require('request');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 const convert = require('xml-js');
+const pool = require('../database/db');
 
 module.exports = {
   getMTAData: (req, res, next) => {
@@ -35,10 +36,26 @@ module.exports = {
       next();
     })
   },
-  addUser: (req, res, next) => {
-    console.log('This is where we would add the user.');
+  getUserInfo: (req, res, next) => {
     // access req.body to get the user's number and the line to associate with them
-    // add user's number to the table associated with the inputted line
+    res.locals.phone = req.body.phone;
+    res.locals.lines = req.body.lines;
+    next();
+  },
+  addUserToDB: (req, res, next) => {
+    //access res.locals for the phone number and lines
+    const phonenumber = res.locals.phone;
+    const lines = res.locals.lines;
+    //iterate over array of lines
+    lines.forEach(line => {
+      const sqlQuery = `INSERT INTO n4 (phone) VALUES (${phonenumber})`;
+      //insert the number to the appropriate table(s)
+      pool.query(sqlQuery, (error, result) => {
+        if (error) console.log(`Error: ${error}`);
+        else console.log(result, '***');
+      })
+    });
+    //verify it was added
     next();
   }
 }
