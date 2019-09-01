@@ -1,5 +1,9 @@
 import React from 'react';
 import { EventEmitter } from 'events';
+import SubmitButton from '../styled components/Submit$.jsx';
+import InputStyle from '../styled components/Input$.jsx';
+import Lines from '../styled components/Lines$.jsx';
+import LabelStyle from '../styled components/Label$.jsx';
 
 class Form extends React.Component{
   constructor(){
@@ -7,6 +11,7 @@ class Form extends React.Component{
     this.state ={
       phoneNumber :'',
       selectedLines : {},
+      allLines: ['1', '2', '3', '4', '5', '6', '7', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'j', 'l', 'm', 'n', 'q', 'r', 's', 'w', 'z']
     }
     this.addSubscriber = this.addSubscriber.bind(this);
     this.getInput = this.getInput.bind(this);
@@ -62,14 +67,22 @@ addLine(event){
   render(){
     console.log('Tracking the state of phone number',this.state.phoneNumber)
 
+    let lines = this.state.allLines.map(element => {
+      return (  
+        <LabelStyle>{element}
+          <input id={element} name={element} type="checkbox" onClick = {this.addLine}/>
+          <span className="checkmark"></span>
+        </LabelStyle>
+      )
+    })
+
     return(
       <>
-        <label className="container">4 line
-          <input id='4' type="checkbox" onClick = {this.addLine}/>
-          <span className="checkmark"></span>
-        </label> 
-        <input id="phone-input" type="text" onChange={this.getInput}></input>
-        <button onClick={this.addSubscriber}>Hi sierra</button>
+      <Lines>
+        {lines}
+      </Lines>
+        <InputStyle id="phone-input" type="text" onChange={this.getInput} placeholder="Enter phone number here"></InputStyle>
+        <SubmitButton onClick={this.addSubscriber}>Submit</SubmitButton>
       </>
     )
   }

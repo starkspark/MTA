@@ -15,16 +15,20 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
 
-app.post('/sms', (req, res) => {
-  const twiml = new MessagingResponse();
+// app.post('/sms', (req, res) => {
+//   console.log('hi guys')
+//   const twiml = new MessagingResponse();
+//   // const message = twiml.message();
+//   // message.body('Hello World!');
+//   // res.redirect('https://demo.twilio.com/welcome/sms/');
 
-  twiml.message('The Robots are coming! Head for the hills!');
+//   twiml.message('The Robots are coming! Head for the hills!');
 
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-});
+//   res.writeHead(200, {'Content-Type': 'text/xml'});
+//   res.end(twiml.toString());
+// });
 
-setInterval(getMTAData, 2000)
+setInterval(getMTAData, 10000)
 
 //this is the test route for the proof of concept
 app.get('/test', getMTAData, (req, res) => {
@@ -42,8 +46,8 @@ app.post('/test', getUserInfo, addUserToDB, (req, res) => {
 //   console.log(blah)
 // }));
 
-http.createServer(app).listen(3000, () => {
-  console.log('App is listening on port 3000');
-});
+// http.createServer(app).listen(3000, () => {
+//   console.log('App is listening on port 3000');
+// });
 
-// app.listen(3000, () => console.log('App is listening on port 3000'));
+app.listen(3000, () => console.log('App is listening on port 3000'));

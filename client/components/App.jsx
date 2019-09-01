@@ -1,5 +1,6 @@
 import React from 'react';
 import Form from './Form.jsx';
+import AppStyle from '../styled components/App$.jsx';
 
 class App extends React.Component{
   constructor(){
@@ -8,7 +9,12 @@ class App extends React.Component{
 
   render(){
     return(
-      <Form />
+      <div>
+      <h1>Juan on Juan</h1>
+      <AppStyle>
+        <Form />
+      </AppStyle>
+      </div>
     )
   }
 }

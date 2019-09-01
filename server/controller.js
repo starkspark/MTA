@@ -17,7 +17,8 @@ function delayedlines(arrOfLines, msg){
       let sqlQuery = `SELECT (phone) FROM line_${line}`
       // pool.query each element
       pool.query(sqlQuery, (err, result) => {
-        if (result.rows){
+        if (err) console.log(err);
+        else if (result.rows){
           //query table of the curr element
           //ask for all phone #s from that table
           // iterate through new array
